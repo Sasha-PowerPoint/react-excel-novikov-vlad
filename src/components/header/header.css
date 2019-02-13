@@ -1,0 +1,9 @@
+.header-fake{
+    height: 56px;
+    width: 100%;
+}
+.header-fixer{
+    position: fixed;
+    top: 0;
+    right: 0;
+}

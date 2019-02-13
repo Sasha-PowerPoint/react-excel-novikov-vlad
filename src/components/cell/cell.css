@@ -1,0 +1,20 @@
+input{
+    border: none;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    text-align: right;
+    padding-right: 5px;
+}
+input:focus{
+    outline: -webkit-focus-ring-color auto 15px;
+    outline-offset: -20px;
+}
+.currency-shower{
+    font-size: 10px;
+    margin: 0px;
+    padding: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

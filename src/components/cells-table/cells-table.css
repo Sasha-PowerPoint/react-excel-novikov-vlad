@@ -1,0 +1,39 @@
+ul{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+ul li{
+    width: 150px;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px gray solid;
+}
+.numbers li{
+    width: 30px;
+    height: 30px;
+    background: lightgray;
+    box-sizing: border-box;
+    border: 1px gray solid;
+    vertical-align: 30px;
+    text-align: center;
+}
+.cells li{
+    width: 150px;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px gray solid;
+    text-align: right;
+}
+.cells li:first-child{
+    background: lightgray;
+    box-sizing: border-box;
+    border: 1px gray solid;
+    vertical-align: 30px;
+    text-align: center;
+}
+.table-container{
+    display: flex;
+    overflow: auto;
+    height: calc(100% - 56px);
+}
