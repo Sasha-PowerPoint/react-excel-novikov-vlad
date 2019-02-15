@@ -1,68 +1,116 @@
-import React, {useContext} from 'react';
-import AppContext from '../../context';
+import React, {useContext, useReducer} from 'react';
+
 import Cell from '../cell';
 
 import './cells-table.css';
+import AppContext from "../../context/context";
 
 const CellsTable = () => {
 
-    const {tableWidth, tableHeight} = useContext(AppContext);
+    const {state, dispatch, tableWidth, tableHeight} = useContext(AppContext);
 
-    const GenerateNumberColumn = () => {
+    const GenerateLetterColumn = () => {
+        const alphabet = "ABCDEFGHYJKLMNOPQRSTUVWXYZ";
+
         const GenerateCells = () => {
             let cells = [];
-            for (let i = 0; i < tableHeight; i++) {
-                cells[i] = <li key={`~${i + 1}`}>{i + 1}</li>;
+            for (let i = 0; i < tableWidth; i++) {
+                cells[i] = <div key={`~${alphabet[i]}`}>{alphabet[i]}</div>;
             }
 
             return cells;
         };
 
         return (
-            <ul className="numbers">
-                <li/>
+            <div className="letters">
+                <div/>
                 {GenerateCells()}
-            </ul>
+            </div>
         )
     };
 
-    const GenerateCellsColumn = ({counter}) => {
-
+    const GenerateCells = (state, dispatch, tableWidth, tableHeight) => {
         const alphabet = "ABCDEFGHYJKLMNOPQRSTUVWXYZ";
+        let rows = [];
 
-        const GenerateCells = (counter) => {
-            let cells = [];
-            for (let i = 0; i < tableHeight; i++) {
-                cells[i] = <li style={{position : "relative"}} key={alphabet[counter] + "" + (i + 1) + ""}><Cell
-                    cell_id={alphabet[counter] + "" + (i + 1) + ""}/></li>;
+        for (let i = 0; i < tableHeight; i++) {
+            let row = [];
+            for (let j = 0; j < tableHeight; j++) {
+                const id = `${alphabet[j]}${i+1}`;
+
+                const evalArgs = (arr) => {
+                    if(!state.cells[id] || !arr){
+                        return true;
+                    }
+                    const data =[];
+                    for (let i = 0; i < arr.length; i++){
+                        data[i] = state.cells[arr[i]].refactored + "";
+                    }
+                    for (let i = 0; i < arr.length; i++){
+                        data[i + arr.length] = state.cells[arr[i]].currency + "";
+                    }
+                    return data
+                };
+
+                row[j] = !!state.cells[id] ?
+                         <Cell key={id}
+                               cell_id={id}
+                               type={state.cells[id].type}
+                               refactored={state.cells[id].refactored}
+                               value={state.cells[id].value}
+                               currency={state.cells[id].currency}
+                               isntEmpty={!!state.cells[id]}
+                               {...evalArgs(state.cells[id].args)} // function cell re-rendering preventing
+                               dispatch={dispatch}
+                               error={state.cells[id].error}
+                               resultType={!!state.cells[id].resultType ? state.cells[id].resultType : ""}
+                         />
+                         :
+                         <Cell key={id}
+                               cell_id={id}
+                               type={""}
+                               refactored={""}
+                               currency={""}
+                               value={""}
+                               isntEmpty={false}
+                               dispatch={dispatch}
+                               error={false}
+                               resultType=""
+                         />
             }
-            return cells;
-        };
-
-        return (
-            <ul className="cells">
-                <li>{alphabet[counter]}</li>
-                {GenerateCells(counter)}
-            </ul>
-        )
+            rows[i] = <div key={"row" + (i+1)} className="table-row">
+                        {row}
+                      </div>;
+            row = [];
+        }
+        return rows;
     };
 
-    const GenerateColumns = () => {
-        const alphabet = "ABCDEFGHYJKLMNOPQRSTUVWXYZ";
+    const GenerateNumberColumn = () => {
 
         let columns = [];
 
         for (let i = 0; i < tableWidth; i++) {
-            columns[i] = <GenerateCellsColumn counter={i} key={alphabet[i]}/>;
+            columns[i] = <div key={"~" + (i+1)}>{i + 1}</div>;
         }
 
-        return columns;
+        return <div className="numbers">
+            {columns}
+        </div>;
     };
 
     return (
         <div className="table-container">
-            <GenerateNumberColumn/>
-            <GenerateColumns/>
+                <div className="table-display">
+                    <GenerateLetterColumn/>
+                    <div className="table-second">
+                        <GenerateNumberColumn/>
+                        <div className="table-rows">
+                            {GenerateCells(state, dispatch, tableWidth, tableHeight)}
+                        </div>
+                    </div>
+                </div>
+
         </div>
     )
 };

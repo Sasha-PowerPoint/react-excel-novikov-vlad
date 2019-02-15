@@ -1,27 +1,32 @@
-import React, {useReducer, useContext} from 'react';
+import React, {useContext, useReducer} from 'react';
+import reducer from '../../reducers/reducer';
+import AppContext from '../../context';
 import Header from '../header';
 import CellsTable from '../cells-table';
-import AppContext from '../../context';
-import reducer from '../../reducers/reducer';
+import SnapshotContainer from '../snapshot-container';
 
 import './App.css';
 
-const tableWidth = 5;
-const tableHeight = 3;
 
 const App = () => {
+
+    const tableWidth = 5;
+    const tableHeight = 5;
 
     const initialState = useContext(AppContext);
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
-        <AppContext.Provider value={{state, dispatch, tableWidth, tableHeight}}>
-            <div className="app-container">
+
+        <div className="app-container">
+            <AppContext.Provider value={{state, dispatch, tableWidth, tableHeight}}>
+                <SnapshotContainer/>
                 <Header/>
                 <CellsTable/>
-            </div>
-        </AppContext.Provider>
+            </AppContext.Provider>
+        </div>
+
     );
 
 }

@@ -1,119 +1,167 @@
-import React, {useState, useEffect, useContext, useRef, useReducer} from 'react';
-import AppContext from '../../context';
-import {CellSubmit} from "../../action-creators/action-creators";
+import React, {useState, useEffect,  useRef, memo} from 'react';
+import {CellMoneySet,
+        CellNumberSet,
+        CellStringSet,
+        CellFunctionSet,
+        CellHyperlinkSet,
+        RefreshFunctions,
+        CellFocusOn,
+        FetchSnap,
+        HideSnap} from "../../action-creators/action-creators";
+
 import './cell.css';
 
-const Cell = ({cell_id, cell_state}) => {
-    const [valueType, setValueType] = useState("empty");
-    const [value, setValue] = useState("");
-    const [refactoredValue, setRefactoredValue] = useState(null);
-    const [visibleValue, setVisibleValue] = useState(value);
-    const [payload, setPayload] = useState({});
-    const {dispatch} = useContext(AppContext);
-    const [focused, setFocused] = useState(false);
 
+const Cell = (props) => {
+    const {isntEmpty, cell_id, dispatch, type} = props;
+
+    if(type === "function"){
+        console.log(props);
+    }
+
+    const [focused, setFocused] = useState(false);
     const cellInput = useRef();
 
-    // /(\d)(?=(\d{3})+(\D|$))/g - ділення на три числа
     const setType = (text) => {
-        console.log(focused);
-        setValue(text);
-
+        setFocused(false);
         if (text) {
-            if(text[0] === "="){
-                setValueType("function");
+            if(text.match(/=\w+\([A-Z0-9; ]{0,}\){1}/g)){
+                if(text.indexOf("=HYPERLINK(") !== -1){
+                    return true;
+                }
+                dispatch(CellFunctionSet({text,cell_id}));
+                dispatch(RefreshFunctions());
                 return true;
             }
             if (text.match(/[+-]?([0-9]*[.])?[0-9]+ [а-я]/)) {
-                setValueType("money");
+                dispatch(CellMoneySet({text,cell_id}));
+                dispatch(RefreshFunctions());
                 return true;
             }
             if (text.match(/^\d+$/)) {
-                setValueType("number");
+                dispatch(CellNumberSet({text,cell_id}));
+                dispatch(RefreshFunctions());
                 return true;
             }
-            if (text.match(/^(?:http(s)?:\/\/)?[\w.]+(?:\.[\w\.]+)+[\w\\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm)) {
-                setValueType("hyperlink");
-                return true;
-            }
-            if (text.match(/\w+/)) {
-                setValueType("string");
-                return true;
-            }
-
-
-        }
-    };
-
-    // =СУММ(A1; A2)
-
-    const EvaluateString = (text) => {
-        setFocused(false);
-        switch (valueType) {
-            case "function" :
-                const funcName = text.substring(1, text.indexOf("("));
-                const funcArgs = text.substring(text.indexOf("(")+1, text.indexOf(")")).replace(" ", "").split(";");
-                console.log(funcName);
-                console.log(funcArgs);
-
-                return true;
-            case "money":
-                const getMoneyType = text.replace(/[+-]?([0-9]*[.])?[0-9]+ /g, "");
-                const parsed = text.replace(/[ а-я]/g, "");
-                const pointPosition = parsed.indexOf(".");
-
-                const intPart = parseInt(parsed) + "";
-                const intPartRefactored = intPart.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
-
-                let floatPartRefactored = '';
-                if (pointPosition !== -1) {
-                    const floatPart = parsed.substring(pointPosition, parsed.length);
-                    floatPartRefactored = `.${floatPart[1] ? floatPart[1] : 0}${floatPart[2] ? floatPart[2] : 0}`
-                } else {
-                    floatPartRefactored = ".00";
+            if(text.indexOf("=HYPERLINK(") !== -1){
+                const link = text.replace("=HYPERLINK(", "").replace(")", "");
+                if (link.match(/^(?:http(s)?:\/\/)?[\w.]+(?:\.[\w\.]+)+[\w\\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm)) {
+                    dispatch(CellHyperlinkSet({text,cell_id}));
+                    dispatch(RefreshFunctions());
+                    return true;
+                }else{
+                    dispatch(CellStringSet({text,cell_id}));
+                    dispatch(RefreshFunctions());
                 }
-                console.log(getMoneyType);
-                setVisibleValue(intPartRefactored + floatPartRefactored);
-                setPayload({currency: getMoneyType});
-                console.log("Money");
-               // dispatch(CellSubmit({text, cell_id, cell_payload: getMoneyType, type: "money"}));
                 return true;
-            case "string" :
-                console.log(`Строка`);
-                console.log(parseInt(text.replace(" ", "")));
-                setVisibleValue(text);
-                return true;
-            case "hyperlink" :
-                console.log(`Гіперпосилання`);
-                console.log(parseInt(text.replace(" ", "")));
-                setVisibleValue(text);
-                return true;
-            case "number" :
-                console.log(`Число`);
-                console.log(parseInt(text.replace(" ", "")));
-                setVisibleValue(text);
-                return true;
-        }
+            }
 
+                dispatch(CellStringSet({text,cell_id}));
+                dispatch(RefreshFunctions());
+                return true;
+
+
+
+        }
 
     };
 
-    const Focused = () => {
-            setFocused(true);
+    const focusOnCell = () => {
+        setFocused(true);
+        dispatch(CellFocusOn(cell_id))
+    };
+
+    useEffect(() => {
+        if(props.type === "function"){
+                dispatch(CellFunctionSet({text : props.value, cell_id}));
+        }
+        if(isntEmpty){
+            cellInput.current.value = !focused ? props.refactored : props.value;
+        }else{
+            cellInput.current.value = "";
+        }
+    });
+
+    const renderCell = () => {
+        if(isntEmpty){
+            switch (props.type){
+                case "number":
+                    return(
+                        <input  className="number-back"
+                                ref={cellInput}
+                                onFocus={focusOnCell}
+                                onBlur={() => setType(cellInput.current.value)}
+                        />
+                    );
+                case "money":
+                    return(
+                        <>
+                        {!focused ? <p className="currency-shower">{props.currency}</p> : null}
+                        <input className="money-back"
+                            ref={cellInput}
+                            onFocus={focusOnCell}
+                            onBlur={() => setType(cellInput.current.value)}
+                        />
+                        </>
+                    );
+                case "string":
+                    return(
+                        <input className="string-back"
+                               onFocus={focusOnCell}
+                            ref={cellInput}
+                            onBlur={() => setType(cellInput.current.value)}
+                        />
+                    );
+                case "function":
+                    return(
+                        <>
+                        {!focused ? <p className="currency-shower">{props.currency}</p> : null}
+                        <input className={props.error && !focused ? "formula-error" : "formula-back"}
+                               onFocus={focusOnCell}
+                               ref={cellInput}
+                               onBlur={() => setType(cellInput.current.value)}
+                        />
+                        </>
+                    );
+                case "hyperlink":
+                    return(
+                            <input style={!focused ? {color: "blue", textDecoration : "underline"} : null}
+                                   ref={cellInput}
+                                   onFocus={focusOnCell}
+                                   onBlur={() => setType(cellInput.current.value)}
+                                   onMouseOver={()=>dispatch(FetchSnap(props.refactored))}
+                                   onMouseLeave={()=>dispatch(HideSnap())}
+                            />
+                    );
+                default:
+                    return(
+                        <input
+                            ref={cellInput}
+                            onFocus={focusOnCell}
+                            onBlur={() => setType(cellInput.current.value)}
+                            style={{background : "red"}}
+                        />
+                    );
+            }
+        }else{
+            return(
+                <>
+                <input
+                    ref={cellInput}
+                    onFocus={focusOnCell}
+                    onBlur={() => setType(cellInput.current.value)}
+                />
+                </>
+            );
+        }
+
     };
 
     return (
-        <>
-        {payload.currency && !focused ? <p className="currency-shower">{payload.currency}</p> : null}
-        <input
-            ref={cellInput}
-            onFocus={Focused}
-            onChange={() => {setType(cellInput.current.value)}}
-            onBlur={() => EvaluateString(cellInput.current.value)}
-            value = {focused ? value : visibleValue}
-            />
-        </>
-    )
+        <div className="input-wrapper">
+            {renderCell()}
+        </div>
+    );
 };
 
-export default Cell;
+export default memo(Cell);

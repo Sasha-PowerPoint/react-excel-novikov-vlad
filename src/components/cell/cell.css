@@ -1,20 +1,77 @@
 input{
-    border: none;
+    width: 230px;
+    height: 40px;
+    padding-right: 10px;
     box-sizing: border-box;
-    height: 100%;
-    width: 100%;
+    border: 1px gray solid;
     text-align: right;
-    padding-right: 5px;
 }
 input:focus{
-    outline: -webkit-focus-ring-color auto 15px;
-    outline-offset: -20px;
+    outline: none;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0px 0px 3px 3px rgba(233,84,32,1);
+    -moz-box-shadow: inset 0px 0px 3px 3px rgba(233,84,32,1);
+    box-shadow: inset 0px 0px 3px 3px rgba(233,84,32,1);
 }
 .currency-shower{
-    font-size: 10px;
-    margin: 0px;
-    padding: 1px;
+    font-size: 15px;
+    padding-left: 5px !important;
+    margin: 0;
     position: absolute;
     top: 0;
     left: 0;
+}
+.input-wrapper{
+    position: relative;
+}
+.number-back{
+    background: lightblue;
+}
+.string-back{
+    background: lightgreen;
+}
+.money-back{
+    background: lightcoral;
+}
+.formula-back{
+    background: lightyellow;
+}
+.formula-error{
+    color : red
+}
+.hyperlink-wrapper-focused{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 230px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px gray solid;
+    text-align: right;
+}
+.hyperlink-wrapper-focused input{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+.hyperlink-wrapper-blurred{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 230px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px gray solid;
+    text-align: right;
+}
+.hyperlink-wrapper-blurred input{
+    display: none;
+}
+
+.hyperlink-wrapper:focus{
+    outline: -webkit-focus-ring-color auto 15px;
+    outline-offset: -20px;
 }
