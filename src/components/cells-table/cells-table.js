@@ -9,6 +9,7 @@ const CellsTable = () => {
 
     const {state, dispatch, tableWidth, tableHeight} = useContext(AppContext);
 
+
     const GenerateLetterColumn = () => {
         const alphabet = "ABCDEFGHYJKLMNOPQRSTUVWXYZ";
 
@@ -35,7 +36,7 @@ const CellsTable = () => {
 
         for (let i = 0; i < tableHeight; i++) {
             let row = [];
-            for (let j = 0; j < tableHeight; j++) {
+            for (let j = 0; j < tableWidth; j++) {
                 const id = `${alphabet[j]}${i+1}`;
 
                 const evalArgs = (arr) => {
@@ -44,13 +45,17 @@ const CellsTable = () => {
                     }
                     const data =[];
                     for (let i = 0; i < arr.length; i++){
-                        data[i] = state.cells[arr[i]].refactored + "";
+                        data[i] = state.cells[arr[i]] ? state.cells[arr[i]].refactored + "" : null;
                     }
                     for (let i = 0; i < arr.length; i++){
-                        data[i + arr.length] = state.cells[arr[i]].currency + "";
+                        data[i + arr.length] = state.cells[arr[i]] ? state.cells[arr[i]].refactored + "" : null;
                     }
                     return data
                 };
+
+                const isFocused = (cell_id) =>{
+                    return state.focusedCell === cell_id
+                }
 
                 row[j] = !!state.cells[id] ?
                          <Cell key={id}
@@ -64,6 +69,7 @@ const CellsTable = () => {
                                dispatch={dispatch}
                                error={state.cells[id].error}
                                resultType={!!state.cells[id].resultType ? state.cells[id].resultType : ""}
+                               focusedCell={isFocused(id)}
                          />
                          :
                          <Cell key={id}
@@ -76,6 +82,7 @@ const CellsTable = () => {
                                dispatch={dispatch}
                                error={false}
                                resultType=""
+                               focusedCell={isFocused(id)}
                          />
             }
             rows[i] = <div key={"row" + (i+1)} className="table-row">
@@ -90,7 +97,7 @@ const CellsTable = () => {
 
         let columns = [];
 
-        for (let i = 0; i < tableWidth; i++) {
+        for (let i = 0; i < tableHeight; i++) {
             columns[i] = <div key={"~" + (i+1)}>{i + 1}</div>;
         }
 

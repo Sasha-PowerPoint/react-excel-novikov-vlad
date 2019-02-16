@@ -1,0 +1,52 @@
+.cell-color-wrapper{
+    display: flex;
+}
+.how-to-use-wrapper{
+    padding: 25px;
+    margin-top: 50px;
+}
+
+.color-cell{
+    display: block;
+    padding : 10px;
+    margin : 10px;
+    text-align: center;
+    border: 1px gray solid;
+}
+.functions-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.number{
+    background: #3700f64d;
+}
+.function{
+    background: #ffff004d;
+}
+.string{
+    background: #00f8ff45;
+}
+.money{
+    background: #4bff6575;
+}
+.hyperlink{
+    color: blue;
+    text-decoration: underline;
+}
+.qm{
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    background-image : url("./qm.png");
+    background-size: contain;
+    background-position: center center;
+    transition: 0.2s;
+}
+.qm:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.qm-holder{
+    display: flex;
+    align-items: center;
+}

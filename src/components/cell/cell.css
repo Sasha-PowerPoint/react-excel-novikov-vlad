@@ -6,12 +6,12 @@ input{
     border: 1px gray solid;
     text-align: right;
 }
-input:focus{
+.focused-cell{
     outline: none;
     outline-offset: 0;
-    -webkit-box-shadow: inset 0px 0px 3px 3px rgba(233,84,32,1);
-    -moz-box-shadow: inset 0px 0px 3px 3px rgba(233,84,32,1);
-    box-shadow: inset 0px 0px 3px 3px rgba(233,84,32,1);
+    -webkit-box-shadow: inset 0 0 1px 1px rgba(233,84,32,1);
+    -moz-box-shadow: inset 0 0 1px 1px rgba(233,84,32,1);
+    box-shadow: inset 0 0 1px 1px rgba(233,84,32,1);
 }
 .currency-shower{
     font-size: 15px;
@@ -25,53 +25,17 @@ input:focus{
     position: relative;
 }
 .number-back{
-    background: lightblue;
+    background: #3700f64d;
 }
 .string-back{
-    background: lightgreen;
+    background: #00f8ff45;
 }
 .money-back{
-    background: lightcoral;
+    background: #4bff6575;
 }
 .formula-back{
-    background: lightyellow;
+    background: #ffff004d;
 }
 .formula-error{
     color : red
-}
-.hyperlink-wrapper-focused{
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    width: 230px;
-    height: 40px;
-    box-sizing: border-box;
-    border: 1px gray solid;
-    text-align: right;
-}
-.hyperlink-wrapper-focused input{
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-
-.hyperlink-wrapper-blurred{
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    width: 230px;
-    height: 40px;
-    box-sizing: border-box;
-    border: 1px gray solid;
-    text-align: right;
-}
-.hyperlink-wrapper-blurred input{
-    display: none;
-}
-
-.hyperlink-wrapper:focus{
-    outline: -webkit-focus-ring-color auto 15px;
-    outline-offset: -20px;
 }

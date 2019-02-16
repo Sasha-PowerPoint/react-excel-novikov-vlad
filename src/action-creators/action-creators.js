@@ -9,5 +9,3 @@ export const CellFocusOn = (cell_id) => ({type: "CELL_FOCUS_ON", payload: {cell_
 
 export const FetchSnap = (link) => ({type: "FETCH_SNAP", payload: {link}});
 export const HideSnap = () => ({type: "HIDE_SNAP"});
-
-export const HeaderFieldChange = (obj) => ({type: "HEADER_FIELD_CHANGE", payload: {...obj}});

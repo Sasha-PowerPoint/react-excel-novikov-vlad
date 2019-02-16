@@ -4,18 +4,21 @@ import AppContext from '../../context';
 import Header from '../header';
 import CellsTable from '../cells-table';
 import SnapshotContainer from '../snapshot-container';
+import HowToUse from '../how-to-use';
 
 import './App.css';
 
 
 const App = () => {
 
-    const tableWidth = 5;
-    const tableHeight = 5;
+    const tableWidth = 7;
+    const tableHeight = 10;
 
     const initialState = useContext(AppContext);
 
     const [state, dispatch] = useReducer(reducer, initialState);
+
+
 
     return (
 
@@ -24,6 +27,7 @@ const App = () => {
                 <SnapshotContainer/>
                 <Header/>
                 <CellsTable/>
+                <HowToUse/>
             </AppContext.Provider>
         </div>
 

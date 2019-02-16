@@ -1,10 +1,6 @@
 import React from 'react';
 
 const AppContext = React.createContext({
-    dependencies : {
-        "B1" : true,
-        "A4" : true
-    },
     cells : {
        /*"A1" : {
             type: "number",

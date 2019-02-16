@@ -13,7 +13,7 @@ const reducer = (state, action) => {
         case "CELL_FOCUS_ON" :
             return Object.assign({...state}, {focusedCell: action.payload.cell_id});
         case "CELL_STRING_SET" :
-
+            console.log("s_reduced");
             const newStringCells = Object.assign({...state.cells}, {
                 [action.payload.cell_id]: {
                     type: "string",
@@ -21,6 +21,7 @@ const reducer = (state, action) => {
                     refactored: action.payload.text
                 }
             });
+            console.log(Object.assign({...state}, {cells: {...newStringCells}}));
             return Object.assign({...state}, {cells: {...newStringCells}});
         case "CELL_MONEY_SET":
 
@@ -273,14 +274,13 @@ const reducer = (state, action) => {
             });
             console.log(Object.assign({...state}, {cells: {...newHyperlinkCells}}));
             return Object.assign({...state}, {cells: {...newHyperlinkCells}});
-        case "CELL_FOCUS":
-            return Object.assign({...state}, {focusedCell: action.payload.cell_Id});
         case "REFRESH_FUNCTIONS":
             return {...state};
-        case "HEADER_FIELD_CHANGE":
+        case "HEADER_FIELD_SUBMIT":
             const newOnChangedCells = Object.assign({...state.cells[action.payload.cell_id]}, {
                 value: action.payload.text,
-                refactored: action.payload.text});
+                refactored: action.payload.text
+            });
             const withOnChangedCell = Object.assign({...state.cells}, {[action.payload.cell_id] : newOnChangedCells});
             console.log(Object.assign({...state}, {cells: {...withOnChangedCell}}));
             return Object.assign({...state}, {cells: {...withOnChangedCell}});
