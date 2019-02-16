@@ -28,6 +28,7 @@ const HowToUse = () => {
                 <p>=CONCAT(A1;A2) - <strong>Конкатенація</strong></p>
                 <p>=AVERAGE(A1;A2) - <strong>Середнє арифметичне</strong></p>
                 <p>=HYPERLINK(http://example.com) - <strong>Гіперпосилання</strong></p>
+                <p>256 грн - <strong>Формат запису грошей (у записі валюти допустима лише кирилиця)</strong></p>
             </div>
             <p/>
             <h3>Деталі</h3>
