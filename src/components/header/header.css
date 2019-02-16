@@ -1,0 +1,22 @@
+.header-fake{
+    height: 56px;
+    width: 100%;
+}
+.header-fixer{
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+.navbar{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.form-control{
+    width: 100% !important;
+    text-align: left;
+}
+.form-inline{
+    width: 100%;
+}

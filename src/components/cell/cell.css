@@ -1,0 +1,41 @@
+input{
+    width: 230px;
+    height: 40px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    border: 1px gray solid;
+    text-align: right;
+}
+.focused-cell{
+    outline: none;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 1px 1px rgba(233,84,32,1);
+    -moz-box-shadow: inset 0 0 1px 1px rgba(233,84,32,1);
+    box-shadow: inset 0 0 1px 1px rgba(233,84,32,1);
+}
+.currency-shower{
+    font-size: 15px;
+    padding-left: 5px !important;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.input-wrapper{
+    position: relative;
+}
+.number-back{
+    background: #3700f64d;
+}
+.string-back{
+    background: #00f8ff45;
+}
+.money-back{
+    background: #4bff6575;
+}
+.formula-back{
+    background: #ffff004d;
+}
+.formula-error{
+    color : red
+}
