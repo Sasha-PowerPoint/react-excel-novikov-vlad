@@ -48,7 +48,7 @@ const Cell = (props) => {
             {
                 ref : cellInput,
                 onFocus : onFocus,
-                onDoubleClick: onDoubleClick,
+                onDoubleClick: null,
                 onBlur : blurOnCell,
                 error: props.error,
                 currency : props.currency,
@@ -61,30 +61,14 @@ const Cell = (props) => {
         )
     };
 
-    const onDoubleClick = () => {
-        setOpened(true);
-        setFocused(true);
-    };
-
     const onFocus = () => {
         setFocused(true);
         dispatch(CellFocusOn(cell_id))
     };
 
     const blurOnCell = () => {
-
+        chooseType(cellInput.current.value, cell_id, dispatch);
         setFocused(false);
-        if(props.type === "" || props.type === "number" || props.type === "string"){
-            console.log(cellInput.current.value);
-            chooseType(cellInput.current.value, cell_id, dispatch)
-        }else{
-            if(opened){
-                console.log("hhhhhhhhhhhh2");
-                chooseType(cellInput.current.value, cell_id, dispatch)
-            }
-        }
-
-        setOpened(false);
     };
 
     const TypifiedCell = () => {

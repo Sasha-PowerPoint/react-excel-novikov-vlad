@@ -10,7 +10,7 @@ export const isMoney = (text) => {
 };
 
 export const isNumber = (text) => {
-    return text.match(/^\d*\.?\d*$/gm);
+    return text.match(/^\s*\d*\.?\d*\s*$/gm);
 };
 
 export const isHyperlink = (text) => {
