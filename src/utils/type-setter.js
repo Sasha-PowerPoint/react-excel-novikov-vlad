@@ -41,7 +41,6 @@ const setAs = (type, data, dispatch) => {
 
 export const chooseType = (text, cell_id, dispatch) => {
 
-
     if (text) {
         if (isFunction(text)) {
             console.log("f");
