@@ -11,11 +11,9 @@ const SnapshotContainer = () => {
     const container = useRef();
 
     const fetchImage = async () => {
-        const url = state.linkSnap ? state.linkSnap : null;
-        if (url) {
-            const body = await  fetch(`http://mini.s-shot.ru/?${state.linkSnap}`);
-            setLoading(false);
-        }
+
+            setTimeout(() => setLoading(false), 700);
+
     };
 
     useEffect(() => {
@@ -39,8 +37,8 @@ const SnapshotContainer = () => {
                 {loading ? <Spinner/> : null}
 
                 <div className="card-header">{state.linkSnap}</div>
-                < div className="card-body"
-                      style={{backgroundImage: `url('http://mini.s-shot.ru/?${state.linkSnap}')`}}/>
+                <div className="card-body"
+                      style={{backgroundImage: `url('http://mini.s-shot.ru/?${state.linkSnap}')` }}/>
 
             </div>
             :

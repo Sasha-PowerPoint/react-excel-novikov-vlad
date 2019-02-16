@@ -25,7 +25,6 @@ const Cell = (props) => {
     const {isntEmpty, cell_id, dispatch, focusedCell} = props;
 
     const [focused, setFocused] = useState(false);
-    const [opened, setOpened] = useState(false);
 
     const cellInput = useRef();
 

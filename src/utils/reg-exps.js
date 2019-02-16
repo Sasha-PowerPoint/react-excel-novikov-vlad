@@ -1,12 +1,12 @@
 export const isFunction = (text) => {
-    if(text.match(/=\w+\([A-Z0-9; ]{0,}\){1}/g)){
+    if(text.match(/=\s*\w+\([A-Z0-9; ]{0,}\){1}\s*/g)){
         return (text.indexOf("=HYPERLINK(") === -1)
     }
 
 };
 
 export const isMoney = (text) => {
-    return text.match(/[+-]?([0-9]*[.])?[0-9]+ [а-я]/)
+    return text.match(/\s*[+-]?([0-9]*[.])?[0-9]+ [а-я]\s*/)
 };
 
 export const isNumber = (text) => {
@@ -16,7 +16,7 @@ export const isNumber = (text) => {
 export const isHyperlink = (text) => {
     if (text.indexOf("=HYPERLINK(") !== -1){
         const link = text.replace("=HYPERLINK(", "").replace(")", "");
-        return link.match(/^(?:http(s)?:\/\/)?[\w.]+(?:\.[\w\.]+)+[\w\\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm)
+        return link.match(/^\s*(?:http(s)?:\/\/)?[\w.]+(?:\.[\w\.]+)+[\w\\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+\s*$/gm)
     }else{
         return false
     }
