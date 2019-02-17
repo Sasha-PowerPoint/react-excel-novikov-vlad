@@ -65,7 +65,7 @@ const CellsTable = () => {
                                value={state.cells[id].value}
                                currency={state.cells[id].currency}
                                isntEmpty={!!state.cells[id]}
-                               {...evalArgs(state.cells[id].args)} // function cell re-rendering preventing
+                               {...evalArgs(state.cells[id].args)} // function cell re-rendering forcing
                                dispatch={dispatch}
                                error={state.cells[id].error}
                                resultType={!!state.cells[id].resultType ? state.cells[id].resultType : ""}
@@ -74,7 +74,7 @@ const CellsTable = () => {
                          :
                          <Cell key={id}
                                cell_id={id}
-                               type={""}
+                               type={"empty"}
                                refactored={""}
                                currency={""}
                                value={""}

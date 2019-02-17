@@ -23,6 +23,17 @@ const reducer = (state, action) => {
             });
             console.log(Object.assign({...state}, {cells: {...newStringCells}}));
             return Object.assign({...state}, {cells: {...newStringCells}});
+        case "CELL_EMPTY_SET" :{
+            const newStringCells = Object.assign({...state.cells}, {
+                [action.payload.cell_id]: {
+                    type: "empty",
+                    value: "",
+                    refactored: ""
+                }
+            });
+            console.log(Object.assign({...state}, {cells: {...newStringCells}}));
+            return Object.assign({...state}, {cells: {...newStringCells}});
+        }
         case "CELL_MONEY_SET":
 
             const getMoneyType = action.payload.text.replace(/[+-]?([0-9]*[.])?[0-9]+ /g, "");

@@ -11,6 +11,7 @@ import {
     CellStringSet,
     CellFunctionSet,
     CellHyperlinkSet,
+    CellEmptySet,
     RefreshFunctions
 } from "../action-creators/action-creators";
 
@@ -18,6 +19,9 @@ const setAs = (type, data, dispatch) => {
 
 
     switch (type) {
+        case "empty":
+            dispatch(CellEmptySet(data));
+            break;
         case "string":
             dispatch(CellStringSet(data));
             break;
@@ -40,8 +44,13 @@ const setAs = (type, data, dispatch) => {
 };
 
 export const chooseType = (text, cell_id, dispatch) => {
-
-    if (text) {
+    console.log(text.replace(" ",'').length);
+    if (text.replace(" ",'').length + 1) {
+        if(text.replace(" ",'').length === 0){
+            console.log("e");
+            setAs("empty", {text, cell_id}, dispatch);
+            return true;
+        }
         if (isFunction(text)) {
             console.log("f");
             setAs("function", {text, cell_id}, dispatch);

@@ -10,13 +10,13 @@ export const isMoney = (text) => {
 };
 
 export const isNumber = (text) => {
-    return text.match(/^\s*\d*\.?\d*\s*$/gm);
+    return text.match(/^-?\s*\d*\.?\d*\s*$/gm);
 };
 
 export const isHyperlink = (text) => {
     if (text.indexOf("=HYPERLINK(") !== -1){
         const link = text.replace("=HYPERLINK(", "").replace(")", "");
-        return link.match(/^\s*(?:http(s)?:\/\/)?[\w.]+(?:\.[\w\.]+)+[\w\\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+\s*$/gm)
+        return link.match(/^(https?|ftp|torrent|image|irc):\/\/(-?\.)?([^\s\/?\.#-?]+\.?)+(\/[^\s]*)?$/i)
     }else{
         return false
     }
